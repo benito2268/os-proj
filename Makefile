@@ -2,8 +2,8 @@
 TARGET = os.bin
 ISO    = os.iso
 
-CCDIR = ~/opt/cross/bin
-LIBDIR = ~/opt/cross/lib/gcc/i686-elf/14.0.1
+CCDIR = /home/ben/opt/cross/bin
+LIBDIR = /home/ben/opt/cross/lib/gcc/i686-elf/14.0.1
 
 CC = $(CCDIR)/i686-elf-gcc
 CPP = $(CCDIR)/i686-elf-g++
