@@ -1,14 +1,14 @@
 #compiler tools
-TARGET = SweepOS.bin
-ISO    = SweepOS.iso
+TARGET = os.bin
+ISO    = os.iso
 
 CCDIR = ~/opt/cross/bin
-LIBDIR = ~/opt/cross/lib/gcc/i386-elf/14.0.1
+LIBDIR = ~/opt/cross/lib/gcc/i686-elf/14.0.1
 
-CC = $(CCDIR)/i386-elf-gcc
-CPP = $(CCDIR)/i386-elf-g++
-LD = $(CCDIR)/i386-elf-ld
-AS = $(CCDIR)/i386-elf-as
+CC = $(CCDIR)/i686-elf-gcc
+CPP = $(CCDIR)/i686-elf-g++
+LD = $(CCDIR)/i686-elf-ld
+AS = $(CCDIR)/i686-elf-as
 
 CFLAGS = -m32 -Wall -Wextra -std=gnu99 -ffreestanding -O2 -g -nostdlib
 CPPFLAGS = 
