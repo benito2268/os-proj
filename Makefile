@@ -2,8 +2,8 @@
 TARGET = os.bin
 ISO    = os.iso
 
-CCDIR = /home/ben/opt/cross/bin
-LIBDIR = /home/ben/opt/cross/lib/gcc/i686-elf/14.0.1
+CCDIR = /home/benst/opt/cross/bin
+LIBDIR = /home/benst/opt/cross/lib/gcc/i686-elf/15.2.0
 
 CC = $(CCDIR)/i686-elf-gcc
 CPP = $(CCDIR)/i686-elf-g++
@@ -43,10 +43,11 @@ $(ISO): $(TARGET)
 	cp grub.cfg isodir/boot/grub/grub.cfg
 	grub-mkrescue -o $@ isodir
 
-qemu-nox:
-	qemu-system-i386 -nographic $(ISO)
+qemu:
+	qemu-system-i386 -vga std -cdrom $(ISO)
 
 clean:
 	rm $(TARGET) || true
 	rm $(ISO)	 || true
 	rm *.o		 || true
+	rm isodir/boot/os.iso || true 

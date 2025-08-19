@@ -1,7 +1,13 @@
+// main.c - kernel entry point
+// Ben Staehle - 8/18/25
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
- 
+
+#include "multiboot2.h"
+#include "video.h"
+
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
@@ -104,11 +110,14 @@ void terminal_writestring(const char* data)
 	terminal_write(data, strlen(data));
 }
  
-void kmain(void) 
+void kmain(uint32_t mb2_info_addr) 
 {
-	/* Initialize terminal interface */
-	terminal_initialize();
- 
-	/* Newline support is left as an exercise. */
-	terminal_writestring("Hello, kernel World!\n");
+	// parse the multiboot2 info struct
+	parse_mb2_header(mb2_info_addr);
+
+	// draw something on the framebuffer
+	draw_test();	
+
+	// loop forever
+	for (;;);
 }

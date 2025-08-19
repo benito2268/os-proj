@@ -1,16 +1,40 @@
-.set ALIGN,         1 << 0
-.set MEMINFO,       1 << 1
-.set FLAGS,         ALIGN | MEMINFO
-.set MAGIC,         0x1badb002
-.set CHECKSUM,      -(MAGIC + FLAGS)
-.set STACK_CANARY,  0x1badf00d
+# startk.S - specifies the multiboot header and starts the kernel
+# Ben Staehle - 8/18/25
+
+.set MAGIC,         0xE85250D6
+.set ARCH_I386,     0x0
+.set STACK_CANARY,  0x1BAD1BAD
 
 .section .multiboot
+.globl multiboot_header
 
-.align 4
+.align 8
+
+# --- multiboot2 header ---
+multiboot_header:
 .long MAGIC
-.long FLAGS
-.long CHECKSUM
+.long ARCH_I386
+.long header_end - multiboot_header
+.long -(MAGIC + (header_end - multiboot_header))
+
+# --- multiboot2 tags ---
+
+.align 8
+fb_tag:
+.short 0x5                   # framebuffer request
+.short 0x1
+.long fb_tag_end - fb_tag    # size
+.long 640                    # h-res
+.long 480                    # v-res
+.long 32                     # bits-per-pixel
+fb_tag_end:
+
+.align 8
+end_tag:
+.long 0
+.long 8
+
+header_end:
 
 .section .bss
 
@@ -30,6 +54,9 @@ _start:
     movl  $STACK_CANARY, %esi
     pushl %esi
     movl  %esp, %ebp
+
+    pushl %ebx
     call  kmain
     cli
-    jmp .
+spin:
+    jmp spin
