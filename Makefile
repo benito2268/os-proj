@@ -1,9 +1,13 @@
 #compiler tools
 TARGET = os.bin
 ISO    = os.iso
+LIBK   = klibc.a
 
 CCDIR = /home/benst/opt/cross/bin
 LIBDIR = /home/benst/opt/cross/lib/gcc/i686-elf/15.2.0
+
+KDIR    = ./kernel
+LIBKDIR = ./libc 
 
 CC = $(CCDIR)/i686-elf-gcc
 CPP = $(CCDIR)/i686-elf-g++
