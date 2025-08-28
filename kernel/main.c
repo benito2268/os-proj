@@ -1,12 +1,14 @@
 // main.c - kernel entry point
 // Ben Staehle - 8/18/25
 
+#include <stdio.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
 #include "multiboot2.h"
 #include "video.h"
+#include "terminal.h"
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -24,9 +26,10 @@ void kmain(uint32_t mb2_info_addr) {
 
 	// initialize video
 	kvideo_init();
+    term_init(WHITE, BLACK);
 
 	// draw the hello world
-	draw_str(100, 100, WHITE, BLACK, "HELLO WORLD!");
+    kprintf("HELLO: %d", 1234);
 
 	// loop forever
 	for (;;);

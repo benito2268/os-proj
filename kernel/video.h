@@ -146,3 +146,4 @@ void    draw_str(int x, int y, uint32_t fg, uint32_t bg, const char* s);
 
 void putpixel(uint32_t x, uint32_t y, uint32_t color);
 void kvideo_init();
+void clear_scr(uint32_t color);
