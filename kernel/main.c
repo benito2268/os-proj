@@ -29,7 +29,7 @@ void kmain(uint32_t mb2_info_addr) {
     term_init(WHITE, BLACK);
 
 	// draw the hello world
-    kprintf("HELLO: %d", 1234);
+    kprintf("HELLO: %8x %s%4d", 64, "HELLO AGAIN\n", 2);
 
 	// loop forever
 	for (;;);
