@@ -9,6 +9,7 @@
 #include "multiboot2.h"
 #include "video.h"
 #include "terminal.h"
+#include "utils.h"
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -29,7 +30,10 @@ void kmain(uint32_t mb2_info_addr) {
     term_init(WHITE, BLACK);
 
 	// draw the hello world
-    kprintf("HELLO: %8x %s%4d", 64, "HELLO AGAIN\n", 2);
+    //kprintf("HELLO: %8x %s%4d", 64, "HELLO AGAIN\n", 2);
+
+    // test panic
+    panic("MACHINE CHECK EXCEPTION");
 
 	// loop forever
 	for (;;);

@@ -3,6 +3,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "video_defs.h"
 
 typedef uint32_t color_t;
 
@@ -17,6 +18,7 @@ extern int TERM_COLS;
 
 void term_init(color_t fg, color_t bg);
 void term_clear();
+void term_clear_color(color_t c);
 
 void term_putc(char c);
 void term_puts(char *str);

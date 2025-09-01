@@ -39,15 +39,26 @@ static const char *isr_msgs[32] = {
    "Reserved",
 };
 
-typedef struct __regs__ {
-   uint32_t ds;
-   uint32_t edi, esi, ebp, esp, ebx, ecx, eax;
-   uint32_t int_no, err_no;
-   uint32_t eip, cs, eflags, useresp, ss;
-} regs_t;
+typedef struct __trap_frame__ {
+    // GP registers
+    uint32_t edi, esi, ebp, old_esp;
+    uint32_t ebx, edx, ecx, eax;
+
+    // segment regs
+    uint32_t gs, fs, es, ds;
+
+    uint32_t trap_no;
+
+    // values pushed by the hardware
+    uint32_t err_code, eip, cs, eflags;
+
+    // values pushed by hardware during a PL change
+    uint32_t esp, ss;
+
+} trap_frame_t;
 
 void isr_install();
-void isr_handler(regs_t *r);
+void trap(trap_frame_t *r);
 
 //isr handler functions
 extern void isr0();

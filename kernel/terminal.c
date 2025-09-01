@@ -22,6 +22,15 @@ void term_clear() {
     curr_pos.y = 0;
 }
 
+void term_clear_color(color_t c) {
+    //clear the screen to the bg color
+    clear_scr(c);
+    
+    curr_pos.x = 0;
+    curr_pos.y = 0;
+
+}
+
 void term_init(color_t fg, color_t bg) {
     curr_fg = fg;
     curr_bg = bg;
