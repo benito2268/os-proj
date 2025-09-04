@@ -7,7 +7,8 @@
 __attribute__((noreturn))
 void panic(char *msg) {
     // get the cpu registers
-    
+    regs_t r;
+    dump_regs(&r); 
 
     // print the messages
     // and emulate the classic blue screen ;)
@@ -15,8 +16,14 @@ void panic(char *msg) {
     term_set_bg(BLUE);
 
     kprintf("\nKERNEL: (PANIC) A FATAL SYSTEM ERROR HAS OCCURRED!\n");
-    kprintf("\n    %s\n\n", msg);
+    kprintf("\n    %s AT EIP=%8x\n\n", msg, r.eip);
     kprintf("\nBELOW IS A CRASH DUMP CONTAINING INFORMATION\nABOUT THE SYSTEM WHEN THE ERROR OCCURRED\n");
+
+    // print the crash dump
+    kprintf("\n\n    EAX=%8x EBX=%8x ECX=%8x EDX=%8x\n", r.eax, r.ebx, r.ecx, r.edx);
+    kprintf("    ESP=%8x EBP=%8x ESI=%8x EDI=%8x\n", r.esp, r.ebp, r.esi, r.edi);
+    kprintf("    CR0=%8x CR2=%8x CR3=%8x\n", r.cr0, r.cr2, r.cr3);
+    kprintf("    EFLAGS=%8x\n", r.eflags);
 
     kprintf("\n\nPLEASE REBOOT THE MACHINE...");
 

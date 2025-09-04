@@ -12,7 +12,7 @@
 .extern trap
 
 # macro to generate isrs with no error code
-.macro ISR_NOERR num
+.macro ISR_NO_ERR num
 	cli
 	pushl $0
 	pushl $\num

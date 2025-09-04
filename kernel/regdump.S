@@ -3,6 +3,10 @@
 
 .code32
 
+.section .data
+
+temp_esp: .long 0
+
 .section .text
 
 get_pc:
@@ -15,23 +19,46 @@ get_pc:
 .type dump_regs, @function
 
 dump_regs:
+    # save the temp esp
+    movl %esp, temp_esp
+
     pushl %ebp
     movl  %esp, %ebp
-
-    # push all registers
-    pushal
-    pushl %cr0
-    pushl %cr2
-    pushl %cr3
-    pushf
-
-    # get the value of %eip
-    call get_pc
-    pushl %eax
-
-    # return a pointer to the struct
-    movl %esp, %eax
     
+    # load the struct pointer into edx
+    pushl %edx
+    mov   8(%ebp), %edx  
+    
+    # save the registers
+    movl  %eax, 0(%edx)
+    movl  %ecx, 4(%edx)
+    
+    # get %edx
+    popl  %eax
+    movl  %eax, 8(%edx)
+
+    movl  %ebx, 12(%edx)
+    movl  %ebp, 16(%edx)
+
+    # get the saved esp
+    movl temp_esp, %eax
+    movl %eax, 20(%edx)
+
+    movl  %esi, 24(%edx)
+    movl  %edi, 28(%edx)
+
+    # get crX regs
+    movl  %cr0, %eax
+    movl  %eax, 32(%edx)
+    movl  %cr2, %eax
+    movl  %eax, 36(%edx)
+    movl  %cr3, %eax
+    movl  %eax, 40(%edx)
+
+    # get %eip
+    call  get_pc
+    movl  %eax, 44(%edx)
+
     movl %ebp, %esp
     popl %ebp
     ret

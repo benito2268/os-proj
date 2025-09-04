@@ -10,7 +10,7 @@ LD = $(CCDIR)/i686-elf-ld
 AS = $(CCDIR)/i686-elf-as
 AR = $(CCDIR)/i686-elf-ar
 
-CFLAGS = -m32 -Wall -Wextra -std=gnu99 -ffreestanding -O2 -g -nostdlib
+CFLAGS = -m32 -Wall -Wextra -std=gnu99 -ffreestanding -O0 -g -nostdlib
 CPPFLAGS = 
 LDFLAGS = -Tldscript.ld -nostdlib -lgcc
 ASFLAGS =

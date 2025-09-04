@@ -50,6 +50,7 @@ uint8_t font_bitmap_index(char c) {
         case ']': return 51;
         case '<': return 52;
         case '>': return 53;
+        case '%': return 54;
         default:  return 0;  // fallback box ▯
     }
 }

@@ -1,6 +1,7 @@
 // kprintf.c - defines the kernel printf function
 // Ben Staehle - 8/26/25
 
+#include <stdint.h>
 #include <stdarg.h>
 #include "stdio.h"
 #include "string.h"
@@ -11,16 +12,13 @@
 #define NUM_BUF_SIZE 512
 
 //TODO move to stdlib.c
-static char *itoa(int value, char *str, int base) {
+//NOTE: does not support negetive base 10 numbers yet
+static char *itoa(uint32_t value, char *str, int base) {
     int curr_pos = 0; 
 
     if (base < 2 || base > 32) {
         str[0] = '\0';
         return str;
-    }
-
-    if (value < 0) {
-        str[0] = '-';
     }
 
     // handle 0 explicitly
@@ -38,9 +36,11 @@ static char *itoa(int value, char *str, int base) {
         if (digit < 10) {
             str[curr_pos++] = '0' + digit;   
         } else {
-            str[curr_pos] = 'a' + digit;
+            str[curr_pos++] = 'A' + (digit - 10);
         }
     }
+
+    str[curr_pos] = '\0';
 
     // reverse the string
     str = kstrrev(str);
@@ -83,12 +83,13 @@ int kprintf(const char * restrict fmt, ...) {
     va_start(va, fmt);
 
     int left_pad = 0;
+    char itoa_buf[NUM_BUF_SIZE] = { '\0' };
 
     while(*fmt != '\0') {
-        if (*fmt == '%') {
+         if (*fmt == '%') {
             //increment and see which specifier
             ++fmt;
-    
+
             // check for padding specifiers
             char buf[NUM_BUF_SIZE] = { '\0' };
             int buf_idx = 0;
@@ -105,18 +106,17 @@ int kprintf(const char * restrict fmt, ...) {
             switch (*fmt) {
                 case 'd':
                     int num = va_arg(va, int);
-                    char buf[NUM_BUF_SIZE] = { '\0' };
 
-                    itoa(num, buf, 10);
+                    itoa(num, itoa_buf, 10);
                     
                     // do any left padding
-                    int final_pad = left_pad - strlen(buf);
+                    int final_pad = left_pad - strlen(itoa_buf);
                     while (final_pad) {
                         term_putc('0'); 
                         --final_pad;
                     }
 
-                    term_puts(buf);
+                    term_puts(itoa_buf);
                     
                     break;
                 case 'x':
@@ -124,22 +124,27 @@ int kprintf(const char * restrict fmt, ...) {
                     term_puts("0X");
                     num = va_arg(va, int);
                 
-                    itoa(num, buf, 16);
+                    itoa(num, itoa_buf, 16);
                     
                      // do any left padding
-                    final_pad = left_pad - strlen(buf);
+                    final_pad = left_pad - strlen(itoa_buf);
                     while (final_pad) {
                         term_putc('0'); 
                         --final_pad;
                     }
 
-                    term_puts(buf);
+                    term_puts(itoa_buf);
 
                     break;
                 case 's':
                     char *s = va_arg(va, char*);
                     term_puts(s);
 
+                    break;
+                case '%':
+                    // escape '%'
+                    term_putc('%');
+                    
                     break;
                 default:
                     // unknown specifier

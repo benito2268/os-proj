@@ -22,6 +22,9 @@ build:
 qemu:
 	qemu-system-i386 -vga std -display gtk,zoom-to-fit=on -cdrom $(ISO)
 
+qemu-gdb:
+	qemu-system-i386 -vga std -display gtk,zoom-to-fit=on -cdrom $(ISO) -s -S
+
 clean:
 	$(BASH) clean.sh
 	rm $(TARGET) || true

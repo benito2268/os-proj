@@ -15,7 +15,7 @@ CPP = $(CCDIR)/i686-elf-g++
 LD = $(CCDIR)/i686-elf-ld
 AS = $(CCDIR)/i686-elf-as
 
-CFLAGS = -m32 -Wall -Wextra -std=gnu99 -ffreestanding -O2 -g -nostdlib -I$(LIBPATH)
+CFLAGS = -m32 -Wall -Wextra -std=gnu99 -ffreestanding -O0 -g -nostdlib -I$(LIBPATH)
 CPPFLAGS = 
 LDFLAGS = -T../ldscript.ld -nostdlib -L$(LIBPATH) -lgcc -lk
 ASFLAGS =
