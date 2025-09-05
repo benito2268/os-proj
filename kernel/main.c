@@ -10,6 +10,8 @@
 #include "video.h"
 #include "terminal.h"
 #include "utils.h"
+#include "idt.h"
+#include "mmu.h"
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -24,6 +26,12 @@
 void kmain(uint32_t mb2_info_addr) {
 	// parse the multiboot2 info struct
 	parse_mb2_header(mb2_info_addr);
+
+    // initialize memory
+    //mmu_init();
+
+    // set the IDT
+    //idt_install();
 
 	// initialize video
 	kvideo_init();

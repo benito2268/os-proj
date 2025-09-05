@@ -1,6 +1,5 @@
 # regdump.S - asm function to dump all registers
 # Ben Staehle - 8/32/25
-
 .code32
 
 .section .data

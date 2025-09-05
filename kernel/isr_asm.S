@@ -13,7 +13,8 @@
 
 # macro to generate isrs with no error code
 .macro ISR_NO_ERR num
-	cli
+    isr\num:
+    cli
 	pushl $0
 	pushl $\num
 	jmp   isr_common_stub
@@ -21,6 +22,7 @@
 
 # macro to generate isrs with an error code
 .macro ISR_ERR num
+    isr\num:
 	cli
 	pushl $\num
 	jmp   isr_common_stub

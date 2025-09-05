@@ -9,7 +9,7 @@ CD   = cd
 
 all: build
 
-.PHONY: build clean qemu
+.PHONY: build clean qemu kernel-as-lst
 
 build:
 	$(BASH) build_libk.sh
@@ -23,7 +23,7 @@ qemu:
 	qemu-system-i386 -vga std -display gtk,zoom-to-fit=on -cdrom $(ISO)
 
 qemu-gdb:
-	qemu-system-i386 -vga std -display gtk,zoom-to-fit=on -cdrom $(ISO) -s -S
+	qemu-system-i386 -vga std -display gtk,zoom-to-fit=on -cdrom $(ISO) -d int -s -S
 
 clean:
 	$(BASH) clean.sh

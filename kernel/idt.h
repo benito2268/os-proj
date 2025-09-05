@@ -29,5 +29,5 @@ typedef struct __attribute__((packed)) {
 static idtr_t idt_ptr;
 static idt_gate_t idt[N_IDT_GATES];
 
+void idt_install();
 void idt_set_gate(uint8_t idx, uint32_t offset, uint16_t selector, uint8_t attribs);
-void lidt(idtr_t *ptr);
