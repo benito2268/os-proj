@@ -35,8 +35,8 @@ void idt_install() {
     }
 
 	asm volatile (
-			"lidtl (%0);"
-			:: "r"(&idt_ptr)
+		"lidtl (%0);"
+		:: "r"(&idt_ptr)
 	);
 	
 	// enable inturrupts

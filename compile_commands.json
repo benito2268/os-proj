@@ -1,0 +1,200 @@
+[
+  {
+    "arguments": [
+      "/home/ben/opt/cross/bin/i686-elf-gcc",
+      "-c",
+      "-m32",
+      "-Wall",
+      "-Wextra",
+      "-std=gnu99",
+      "-ffreestanding",
+      "-O0",
+      "-g",
+      "-o",
+      "kprintf.o",
+      "kprintf.c"
+    ],
+    "directory": "/home/ben/code/os-proj/libc",
+    "file": "/home/ben/code/os-proj/libc/kprintf.c",
+    "output": "/home/ben/code/os-proj/libc/kprintf.o"
+  },
+  {
+    "arguments": [
+      "/home/ben/opt/cross/bin/i686-elf-gcc",
+      "-c",
+      "-m32",
+      "-Wall",
+      "-Wextra",
+      "-std=gnu99",
+      "-ffreestanding",
+      "-O0",
+      "-g",
+      "-o",
+      "string.o",
+      "string.c"
+    ],
+    "directory": "/home/ben/code/os-proj/libc",
+    "file": "/home/ben/code/os-proj/libc/string.c",
+    "output": "/home/ben/code/os-proj/libc/string.o"
+  },
+  {
+    "arguments": [
+      "/home/ben/opt/cross/bin/i686-elf-gcc",
+      "-c",
+      "-m32",
+      "-Wall",
+      "-Wextra",
+      "-std=gnu99",
+      "-ffreestanding",
+      "-O0",
+      "-g",
+      "-I../libc/",
+      "-o",
+      "idt.o",
+      "idt.c"
+    ],
+    "directory": "/home/ben/code/os-proj/kernel",
+    "file": "/home/ben/code/os-proj/kernel/idt.c",
+    "output": "/home/ben/code/os-proj/kernel/idt.o"
+  },
+  {
+    "arguments": [
+      "/home/ben/opt/cross/bin/i686-elf-gcc",
+      "-c",
+      "-m32",
+      "-Wall",
+      "-Wextra",
+      "-std=gnu99",
+      "-ffreestanding",
+      "-O0",
+      "-g",
+      "-I../libc/",
+      "-o",
+      "isr.o",
+      "isr.c"
+    ],
+    "directory": "/home/ben/code/os-proj/kernel",
+    "file": "/home/ben/code/os-proj/kernel/isr.c",
+    "output": "/home/ben/code/os-proj/kernel/isr.o"
+  },
+  {
+    "arguments": [
+      "/home/ben/opt/cross/bin/i686-elf-gcc",
+      "-c",
+      "-m32",
+      "-Wall",
+      "-Wextra",
+      "-std=gnu99",
+      "-ffreestanding",
+      "-O0",
+      "-g",
+      "-I../libc/",
+      "-o",
+      "main.o",
+      "main.c"
+    ],
+    "directory": "/home/ben/code/os-proj/kernel",
+    "file": "/home/ben/code/os-proj/kernel/main.c",
+    "output": "/home/ben/code/os-proj/kernel/main.o"
+  },
+  {
+    "arguments": [
+      "/home/ben/opt/cross/bin/i686-elf-gcc",
+      "-c",
+      "-m32",
+      "-Wall",
+      "-Wextra",
+      "-std=gnu99",
+      "-ffreestanding",
+      "-O0",
+      "-g",
+      "-I../libc/",
+      "-o",
+      "mmu.o",
+      "mmu.c"
+    ],
+    "directory": "/home/ben/code/os-proj/kernel",
+    "file": "/home/ben/code/os-proj/kernel/mmu.c",
+    "output": "/home/ben/code/os-proj/kernel/mmu.o"
+  },
+  {
+    "arguments": [
+      "/home/ben/opt/cross/bin/i686-elf-gcc",
+      "-c",
+      "-m32",
+      "-Wall",
+      "-Wextra",
+      "-std=gnu99",
+      "-ffreestanding",
+      "-O0",
+      "-g",
+      "-I../libc/",
+      "-o",
+      "multiboot2.o",
+      "multiboot2.c"
+    ],
+    "directory": "/home/ben/code/os-proj/kernel",
+    "file": "/home/ben/code/os-proj/kernel/multiboot2.c",
+    "output": "/home/ben/code/os-proj/kernel/multiboot2.o"
+  },
+  {
+    "arguments": [
+      "/home/ben/opt/cross/bin/i686-elf-gcc",
+      "-c",
+      "-m32",
+      "-Wall",
+      "-Wextra",
+      "-std=gnu99",
+      "-ffreestanding",
+      "-O0",
+      "-g",
+      "-I../libc/",
+      "-o",
+      "panic.o",
+      "panic.c"
+    ],
+    "directory": "/home/ben/code/os-proj/kernel",
+    "file": "/home/ben/code/os-proj/kernel/panic.c",
+    "output": "/home/ben/code/os-proj/kernel/panic.o"
+  },
+  {
+    "arguments": [
+      "/home/ben/opt/cross/bin/i686-elf-gcc",
+      "-c",
+      "-m32",
+      "-Wall",
+      "-Wextra",
+      "-std=gnu99",
+      "-ffreestanding",
+      "-O0",
+      "-g",
+      "-I../libc/",
+      "-o",
+      "terminal.o",
+      "terminal.c"
+    ],
+    "directory": "/home/ben/code/os-proj/kernel",
+    "file": "/home/ben/code/os-proj/kernel/terminal.c",
+    "output": "/home/ben/code/os-proj/kernel/terminal.o"
+  },
+  {
+    "arguments": [
+      "/home/ben/opt/cross/bin/i686-elf-gcc",
+      "-c",
+      "-m32",
+      "-Wall",
+      "-Wextra",
+      "-std=gnu99",
+      "-ffreestanding",
+      "-O0",
+      "-g",
+      "-I../libc/",
+      "-o",
+      "video.o",
+      "video.c"
+    ],
+    "directory": "/home/ben/code/os-proj/kernel",
+    "file": "/home/ben/code/os-proj/kernel/video.c",
+    "output": "/home/ben/code/os-proj/kernel/video.o"
+  }
+]

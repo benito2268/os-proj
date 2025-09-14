@@ -1,6 +1,8 @@
 // panic.c - kernel panic code
 // Ben Staehle - 8/31/25
 
+#include <stdio.h>
+
 #include "utils.h"
 #include "terminal.h"
 

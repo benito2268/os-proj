@@ -4,4 +4,6 @@
 *.iso 
 *.o
 *.gdb
+nohup.out
+.cache/
 

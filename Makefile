@@ -23,10 +23,11 @@ qemu:
 	qemu-system-i386 -vga std -display gtk,zoom-to-fit=on -cdrom $(ISO)
 
 qemu-gdb:
-	qemu-system-i386 -vga std -display gtk,zoom-to-fit=on -cdrom $(ISO) -d int -s -S
+	qemu-system-i386 -vga std -display gtk,zoom-to-fit=on -cdrom $(ISO) -D qemu.log -d int,cpu_reset -s -S
 
 clean:
 	$(BASH) clean.sh
 	rm $(TARGET) || true
 	rm $(ISO)	 || true
 	rm isodir/boot/os.iso || true 
+	rm qemu.log

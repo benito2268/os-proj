@@ -28,7 +28,7 @@ void kmain(uint32_t mb2_info_addr) {
 	parse_mb2_header(mb2_info_addr);
 
     // initialize memory
-    //mmu_init();
+    mmu_init();
 
     // set the IDT
     //idt_install();
