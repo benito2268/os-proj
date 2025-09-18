@@ -2,7 +2,9 @@
 // Ben Staehle - 8/31/25
 #pragma once
 
+#include "isr.h"
 #include <stdint.h>
+#include <stdbool.h>
 
 typedef struct __attribute__((packed)) {
     uint32_t eax, ecx, edx, ebx;
@@ -13,5 +15,5 @@ typedef struct __attribute__((packed)) {
 
 extern void dump_regs(regs_t *r);
 
-void panic(char *msg);
+void panic(char *msg, bool is_trap, trap_frame_t *f);
 void cpu_relax();

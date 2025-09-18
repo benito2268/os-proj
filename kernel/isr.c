@@ -7,10 +7,10 @@ void isr_install() {
 
 }
 
-void trap(trap_frame_t *r) {
+void trap(trap_frame_t r) {
     // panic on exception
-    if (r->trap_no < 32) {
-        panic(isr_msgs[r->trap_no]);
+    if (r.trap_no < 32) {
+        panic(isr_msgs[r.trap_no], true, &r);
     }
 
     //TODO otherwise handle the interrupt

@@ -60,7 +60,7 @@ typedef struct __trap_frame__ {
 } trap_frame_t;
 
 void isr_install();
-void trap(trap_frame_t *r);
+void trap(trap_frame_t r);
 
 //isr handler functions
 extern void isr0();

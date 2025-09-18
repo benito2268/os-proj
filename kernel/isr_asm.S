@@ -11,21 +11,23 @@
 
 .extern trap
 
-# macro to generate isrs with no error code
+# ISR with NO hardware error code
 .macro ISR_NO_ERR num
-    isr\num:
+    .globl isr\num
+isr\num:
     cli
-	pushl $0
-	pushl $\num
-	jmp   isr_common_stub
+    pushl $0           # Push dummy error code
+    pushl $\num        # Push trap number
+    jmp isr_common_stub
 .endm
 
-# macro to generate isrs with an error code
+# ISR WITH hardware-pushed error code
 .macro ISR_ERR num
-    isr\num:
-	cli
-	pushl $\num
-	jmp   isr_common_stub
+    .globl isr\num
+isr\num:
+    cli
+    pushl $\num        # Push trap number ONLY
+    jmp isr_common_stub
 .endm
 
 isr_common_stub:
@@ -82,7 +84,7 @@ ISR_NO_ERR 26
 ISR_NO_ERR 27
 ISR_NO_ERR 28
 ISR_NO_ERR 29
-ISR_ERR    30
+ISR_NO_ERR 30
 ISR_NO_ERR 31
 
 

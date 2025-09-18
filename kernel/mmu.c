@@ -18,7 +18,7 @@ void gdt_set_gate(int gate_no, uint32_t base, uint32_t limit, uint8_t acc, uint8
     ptr->base2  = (base >> 16) & 0xFF; 
     ptr->acc_byte    = acc;
     ptr->limit2_flgs = ((limit >> 16) & 0xF) | (flags << 4);
-    ptr->base3  = (base >> 24) % 0xFF;
+    ptr->base3  = (base >> 24) & 0xFF;
 }
 
 static void lgdt() {

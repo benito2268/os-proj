@@ -20,10 +20,10 @@ build:
 	grub-mkrescue -o $(ISO) isodir
 
 qemu:
-	qemu-system-i386 -vga std -display gtk,zoom-to-fit=on -cdrom $(ISO)
+	qemu-system-i386 -vga std -display gtk,zoom-to-fit=on -cdrom $(ISO) -D qemu.log -d int
 
 qemu-gdb:
-	qemu-system-i386 -vga std -display gtk,zoom-to-fit=on -cdrom $(ISO) -D qemu.log -d int,cpu_reset -s -S
+	qemu-system-i386 -vga std -display gtk,zoom-to-fit=on -cdrom $(ISO) -D qemu.log -d int -s -S
 
 clean:
 	$(BASH) clean.sh

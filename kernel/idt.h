@@ -14,8 +14,8 @@
 #define TRAP_GATE_ATTRIBS_DPL0 0x8F
 
 typedef struct __attribute__((packed)) {
-    uint32_t base;
     uint16_t limit;
+    uint32_t base;
 } idtr_t;
 
 typedef struct __attribute__((packed)) {
@@ -27,7 +27,7 @@ typedef struct __attribute__((packed)) {
 } idt_gate_t;
 
 static idtr_t idt_ptr;
-static idt_gate_t idt[N_IDT_GATES];
+extern idt_gate_t idt[N_IDT_GATES];
 
 void idt_install();
 void idt_set_gate(uint8_t idx, uint32_t offset, uint16_t selector, uint8_t attribs);

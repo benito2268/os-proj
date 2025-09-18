@@ -31,17 +31,14 @@ void kmain(uint32_t mb2_info_addr) {
     mmu_init();
 
     // set the IDT
-    //idt_install();
+    idt_install();
 
 	// initialize video
 	kvideo_init();
     term_init(WHITE, BLACK);
 
 	// draw the hello world
-    //kprintf("HELLO: %8x %s%4d", 64, "HELLO AGAIN\n", 2);
-
-    // test panic
-    panic("MACHINE CHECK EXCEPTION");
+    kprintf("HELLO: %8x %s%4d", 64, "HELLO AGAIN\n", 4 / 0);
 
 	// loop forever
 	for (;;);
