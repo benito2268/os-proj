@@ -7,7 +7,7 @@
 .ljmp_addr:
     .long 0
     .word 0
-
+    
 .section .text
 
 .globl set_gdt

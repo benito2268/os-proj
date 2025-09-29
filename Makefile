@@ -7,6 +7,8 @@ ISO = os.iso
 BASH = bash
 CD   = cd
 
+GDBRC = ./start.gdb
+
 all: build
 
 .PHONY: build clean qemu kernel-as-lst
@@ -24,6 +26,9 @@ qemu:
 
 qemu-gdb:
 	qemu-system-i386 -vga std -display gtk,zoom-to-fit=on -cdrom $(ISO) -D qemu.log -d int -s -S
+
+gdb:
+	gdb -x $(GDBRC)
 
 clean:
 	$(BASH) clean.sh

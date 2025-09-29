@@ -6,4 +6,4 @@
 *.gdb
 nohup.out
 .cache/
-
+*.log

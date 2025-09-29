@@ -6,6 +6,24 @@
 #include "utils.h"
 #include "terminal.h"
 
+#define STACK_DUMP_LEN 32
+
+static void dump_stack(uint32_t *esp) {
+    kprintf("\n\n    STACK DUMP FROM %8x:\n", esp);
+    kprintf("    ============================================================");
+    for (int i = 0; i < STACK_DUMP_LEN; ++i) {
+        if (i % 4 == 0) {
+            kprintf("\n    %8x: ", (uint32_t)(esp + i));
+        }
+        kprintf("%8x ", esp[i]);
+    }
+    kprintf("\n    ===========================================================");
+}
+
+static void kbacktrace(uint32_t ebp) {
+
+}
+
 __attribute__((noreturn))
 void panic(char *msg, bool is_trap, trap_frame_t *f) {
     // location sensitive regs
@@ -35,10 +53,17 @@ void panic(char *msg, bool is_trap, trap_frame_t *f) {
     kprintf("\nBELOW IS A CRASH DUMP CONTAINING INFORMATION\nABOUT THE SYSTEM WHEN THE ERROR OCCURRED\n");
 
     // print the crash dump
-    kprintf("\n\n    EAX=%8x EBX=%8x ECX=%8x EDX=%8x\n", r.eax, r.ebx, r.ecx, r.edx);
+    kprintf("\n\n    PROCESSOR REGISTERS:\n");
+    kprintf("    ===========================================================\n");
+    kprintf("    EAX=%8x EBX=%8x ECX=%8x EDX=%8x\n", r.eax, r.ebx, r.ecx, r.edx);
     kprintf("    ESP=%8x EBP=%8x ESI=%8x EDI=%8x\n", esp, ebp, r.esi, r.edi);
     kprintf("    CR0=%8x CR2=%8x CR3=%8x\n", r.cr0, r.cr2, r.cr3);
     kprintf("    EFLAGS=%8x\n", r.eflags);
+    kprintf("    ===========================================================\n");
+
+    // dump the stack and print a back trace
+    dump_stack((uint32_t*)f->esp);
+    kbacktrace(f->ebp);
 
     kprintf("\n\nPLEASE REBOOT THE MACHINE...");
 

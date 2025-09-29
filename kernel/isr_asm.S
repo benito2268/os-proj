@@ -1,6 +1,5 @@
 # isr_asm.S - defines isr handlers 0-31
 # Ben Staehle - 8/19/25
-
 .code32
 .section .text
 
@@ -16,21 +15,22 @@
     .globl isr\num
 isr\num:
     cli
-    pushl $0           # Push dummy error code
-    pushl $\num        # Push trap number
-    jmp isr_common_stub
+    pushl $0            # dummy error code
+    pushl $\num         # trap number
+    jmp all_traps
 .endm
 
-# ISR WITH hardware-pushed error code
+# ISR with hardware error code
 .macro ISR_ERR num
     .globl isr\num
 isr\num:
     cli
-    pushl $\num        # Push trap number ONLY
-    jmp isr_common_stub
+    pushl $\num         # trap number
+    # CPU already pushes hardware error code
+    jmp all_traps
 .endm
 
-isr_common_stub:
+all_traps:
     pushl %ds
     pushl %es
     pushl %fs
@@ -41,15 +41,18 @@ isr_common_stub:
     movw %ax, %ds
     movw %ax, %es
 
-    call trap
+    pushl %esp
+    call  trap
+    addl $0x4, %esp
 
-    # errors never get here
+    # trap ret
+.globl trapret
+trapret:
     popal
     popl %gs
     popl %fs
     popl %es
     popl %ds
-
     addl $0x8, %esp
     iret
 
@@ -86,6 +89,24 @@ ISR_NO_ERR 28
 ISR_NO_ERR 29
 ISR_NO_ERR 30
 ISR_NO_ERR 31
+
+# define the IRQs
+ISR_NO_ERR 32
+ISR_NO_ERR 33
+ISR_NO_ERR 34
+ISR_NO_ERR 35
+ISR_NO_ERR 36
+ISR_NO_ERR 37
+ISR_NO_ERR 38
+ISR_NO_ERR 39
+ISR_NO_ERR 40
+ISR_NO_ERR 41
+ISR_NO_ERR 42
+ISR_NO_ERR 43
+ISR_NO_ERR 44
+ISR_NO_ERR 45
+ISR_NO_ERR 46
+ISR_NO_ERR 47 
 
 
 

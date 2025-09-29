@@ -2,9 +2,9 @@
 // Ben Staehle - 8/19/25
 #pragma once
 
-#include <stdint.h>
+#include "types.h"
 
-#define N_ISRS 32
+#define N_ISRS 48
 
 static const char *isr_msgs[32] = {
    "DIVIDE BY ZERO",
@@ -13,7 +13,7 @@ static const char *isr_msgs[32] = {
    "BREAKPOINT",
    "OVERFLOW",
    "BOUND RANGE EXCEEDED",
-   "INVLIAD OPCODE",
+   "INVALID OPCODE",
    "DEVICE NOT AVAILABLE",
    "DOUBLE FAULT",
    "COPROCESSOR SEGMENT OVERRUN",
@@ -42,27 +42,40 @@ static const char *isr_msgs[32] = {
 };
 
 typedef struct __trap_frame__ {
-    // GP registers
-    uint32_t edi, esi, ebp, old_esp;
-    uint32_t ebx, edx, ecx, eax;
+    // general-purpose regs, pushed by pusha
+    uint edi, esi, ebp, old_esp, ebx, edx, ecx, eax;
 
-    // segment regs
-    uint32_t gs, fs, es, ds;
+    // segement registers
+    ushort gs;
+    ushort padding1;
+    ushort fs;
+    ushort padding2;
+    ushort es;
+    ushort padding3;
+    ushort ds;
+    ushort padding4;
 
-    uint32_t trap_no;
+    // software pushed
+    uint trap_no;
+    uint err_code;
 
-    // values pushed by the hardware
-    uint32_t err_code, eip, cs, eflags;
+    // hardware-pushed fields
+    uint eip;
+    ushort cs;
+    ushort padding5;
+    ushort eflags;
 
-    // values pushed by hardware during a PL change
-    uint32_t esp, ss;
+    // pushed only on PL change
+    uint esp;
+    ushort ss;
+    ushort padding6;
 
 } trap_frame_t;
 
 void isr_install();
-void trap(trap_frame_t r);
+void trap(trap_frame_t *r);
 
-//isr handler functions
+// exception handler functions
 extern void isr0();
 extern void isr1();
 extern void isr2();
@@ -95,6 +108,24 @@ extern void isr28();
 extern void isr29();
 extern void isr30();
 extern void isr31();
+
+// irq handler functions
+extern void isr32();
+extern void isr33();
+extern void isr34();
+extern void isr35();
+extern void isr36();
+extern void isr37();
+extern void isr38();
+extern void isr39();
+extern void isr40();
+extern void isr41();
+extern void isr42();
+extern void isr43();
+extern void isr44();
+extern void isr45();
+extern void isr46();
+extern void isr47();
 
 static void (*isr_vecs[N_ISRS])(void) = {
     isr0,
@@ -129,5 +160,21 @@ static void (*isr_vecs[N_ISRS])(void) = {
     isr29,
     isr30,
     isr31,
+    isr32,
+    isr33,
+    isr34,
+    isr35,
+    isr36,
+    isr37,
+    isr38,
+    isr39,
+    isr40,
+    isr41,
+    isr42,
+    isr43,
+    isr44,
+    isr45,
+    isr46,
+    isr47,
 };
 

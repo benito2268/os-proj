@@ -36,11 +36,4 @@ void idt_install() {
 		"lidtl (%0);"
 		:: "r"(&idt_ptr)
 	);
-
-	// disable hardware IRQ's
-	outb(PIC1_DATA, 0xFF);
-	outb(PIC2_DATA, 0xFF);
-
-	// now safe to enable interrupts
-	sti();
 }
