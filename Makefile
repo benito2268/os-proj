@@ -1,7 +1,7 @@
 # main Makefile - calls bash scripts to build kernel and libk
 # Ben Staehle - 8/26/25
 
-TARGET = os.bin
+TARGET = os.elf
 ISO = os.iso
 
 BASH = bash

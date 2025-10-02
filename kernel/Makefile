@@ -1,7 +1,7 @@
 # kernel Makefile
 # Ben Staehle - 8/26/25
 
-TARGET = ../os.bin
+TARGET = ../os.elf
 
 CCDIR = /home/ben/opt/cross/bin
 LIBDIR = /home/ben/opt/cross/lib/gcc/i686-elf/15.2.0
