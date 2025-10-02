@@ -92,7 +92,7 @@ void IRQ_install(uint8_t irq_no, void (*handler)(void)) {
     cli();
 
     // register an irq so it can be called from the trap() function
-    if (irq_no < 0 || irq_no > 15) {
+    if (irq_no > 15) {
         return;
     }
 

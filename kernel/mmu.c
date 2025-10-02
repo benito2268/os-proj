@@ -25,7 +25,7 @@ static void lgdt() {
     gdt_ptr.size = sizeof(gdt) - 1;
     gdt_ptr.offset = (uint32_t)&gdt;
 
-    set_gdt(&gdt_ptr, KCODE_SEG, KDATA_SEG);
+    set_gdt(&gdt_ptr);
 }
 
 void mmu_init() {

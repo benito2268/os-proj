@@ -15,5 +15,5 @@ typedef struct __attribute__((packed)) {
 
 extern void dump_regs(regs_t *r);
 
-void panic(char *msg, bool is_trap, trap_frame_t *f);
+void panic(const char *msg, bool is_trap, trap_frame_t *f);
 void cpu_relax();

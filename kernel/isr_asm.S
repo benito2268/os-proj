@@ -3,6 +3,8 @@
 .code32
 .section .text
 
+#include "mmu.h"
+
 .globl isr0, isr1, isr2, isr3, isr4, isr5, isr6, isr7
 .globl isr8, isr9, isr10, isr11, isr12, isr13, isr14, isr15
 .globl isr16, isr17, isr18, isr19, isr20, isr21, isr22, isr23
@@ -35,13 +37,17 @@ all_traps:
     pushl %es
     pushl %fs
     pushl %gs
+    
+    // push registers
     pushal
 
-    movw $0x10, %ax
+    # set the kernel data segment
+    movw $KDATA_SEG, %ax
     movw %ax, %ds
     movw %ax, %es
 
-    pushl %esp
+    movl %esp, %eax
+    pushl %eax
     call  trap
     addl $0x4, %esp
 
@@ -49,6 +55,7 @@ all_traps:
 .globl trapret
 trapret:
     popal
+
     popl %gs
     popl %fs
     popl %es

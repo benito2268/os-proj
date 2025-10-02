@@ -15,9 +15,12 @@ CPP = $(CCDIR)/i686-elf-g++
 LD = $(CCDIR)/i686-elf-ld
 AS = $(CCDIR)/i686-elf-as
 
-CFLAGS = -m32 -Wall -Wextra -std=gnu99 -ffreestanding -O0 -g -nostdlib -I$(LIBPATH)
+CFLAGS = -m32 -Wall -Wextra -std=gnu99 -ffreestanding -O0 -ggdb -nostdlib -I$(LIBPATH) \
+         -fno-pic -fno-pie -fno-stack-protector -fno-strict-aliasing -fno-builtin -fno-omit-frame-pointer \
+		 -Wno-unused-function -Wno-unused-variable -Wno-unused-parameter \
+
 CPPFLAGS = 
-LDFLAGS = -T../ldscript.ld -nostdlib -L$(LIBPATH) -lgcc -lk
+LDFLAGS = -T../ldscript.ld -nostdlib -no-pie -L$(LIBPATH) -lgcc -lk
 ASFLAGS =
 
 CFILES = $(wildcard *.c)
@@ -34,7 +37,7 @@ all: $(TARGET)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 %.o: %.S
-	$(AS) $(ASFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) -o $@ $<
 
 %.o: %.cpp
 	$(CPP) $(CPPFLAGS) -c $< -o $@

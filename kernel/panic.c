@@ -25,7 +25,7 @@ static void kbacktrace(uint32_t ebp) {
 }
 
 __attribute__((noreturn))
-void panic(char *msg, bool is_trap, trap_frame_t *f) {
+void panic(const char *msg, bool is_trap, trap_frame_t *f) {
     // location sensitive regs
     uint32_t eip, esp, ebp;
 

@@ -1,5 +1,7 @@
 // isr.c - defines inturrupt handler functions
 // Ben Staehle - 9/3/25
+#include <stddef.h>
+
 #include "isr.h"
 #include "utils.h"
 #include "irq.h"
@@ -15,7 +17,9 @@ void trap(trap_frame_t *r) {
     }
 
     // otherwise handle the IRQ
-    IRQ_VECS[r->trap_no - 32]();
-
+    if (IRQ_VECS[r->trap_no - 32] != NULL) {
+        isr_vecs[r->trap_no]();
+    }
+        
     IRQ_issue_EOI(r->trap_no);
 }

@@ -1,6 +1,7 @@
 # mmu_asm.S - assmebly code for configuring the MMU
 # Ben Staehle - 9/4/25
 .code32
+#include "mmu.h"
 
 .section .data
 
@@ -22,8 +23,8 @@ set_gdt:
     lgdtl (%eax)
 
     # reload the segment registers
-    movl  12(%ebp), %eax
-    movl  16(%ebp), %ecx
+    movl  $KCODE_SEG, %eax
+    movl  $KDATA_SEG, %ecx
 
     movl  $.reload_cs, .ljmp_addr
     movw  %ax, .ljmp_addr + 4 

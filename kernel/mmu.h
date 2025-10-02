@@ -30,7 +30,7 @@ typedef struct __attribute__((packed)) {
 static gdtr_t gdt_ptr;
 static gdt_gate_t gdt[N_GDT_GATES];
 
-extern void set_gdt(gdtr_t *addr, uint code_dsc, uint data_dsc);
+extern void set_gdt(gdtr_t *addr);
 
 void gdt_set_gate(int gate_no, uint base, uint limit, ubyte acc, ubyte flags);
 void mmu_init();

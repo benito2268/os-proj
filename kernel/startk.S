@@ -40,7 +40,7 @@ header_end:
 
 .align 16
 stack_bot:
-    .skip 0x4000
+    .skip 0x8000
 stack_top:
 
 .section .text
@@ -50,12 +50,11 @@ stack_top:
 .code32
 
 _start:
-    leal  stack_top, %esp
+    movl  $stack_top, %esp
     movl  $STACK_CANARY, %esi
     pushl %esi
     movl  %esp, %ebp
 
-    pushl %ebx
     call  kmain
     cli
 spin:
