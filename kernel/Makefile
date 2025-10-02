@@ -15,6 +15,11 @@ CPP = $(CCDIR)/i686-elf-g++
 LD = $(CCDIR)/i686-elf-ld
 AS = $(CCDIR)/i686-elf-as
 
+Q :=@
+ECHO_CC = @echo "  CC      $@"
+ECHO_AS = @echo "  GAS     $@"
+ECHO_LD = @echo "  LD      $@"
+
 CFLAGS = -m32 -Wall -Wextra -std=gnu99 -ffreestanding -O0 -ggdb -nostdlib -I$(LIBPATH) \
          -fno-pic -fno-pie -fno-stack-protector -fno-strict-aliasing -fno-builtin -fno-omit-frame-pointer \
 		 -Wno-unused-function -Wno-unused-variable -Wno-unused-parameter \
@@ -34,16 +39,19 @@ all: $(TARGET)
 .PHONY: clean
 
 %.o: %.c
-	$(CC) -c $< -o $@ $(CFLAGS)
+	$(ECHO_CC)
+	$(Q)$(CC) -c $< -o $@ $(CFLAGS)
 
 %.o: %.S
-	$(CC) -c $(CFLAGS) -o $@ $<
+	$(ECHO_AS)
+	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
 
 %.o: %.cpp
 	$(CPP) $(CPPFLAGS) -c $< -o $@
 
 $(TARGET): $(OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS) 
+	$(ECHO_LD)
+	$(Q)$(CC) -o $@ $^ $(LDFLAGS) 
 
 clean:
 	rm *.o		  || true

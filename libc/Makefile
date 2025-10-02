@@ -10,6 +10,12 @@ LD = $(CCDIR)/i686-elf-ld
 AS = $(CCDIR)/i686-elf-as
 AR = $(CCDIR)/i686-elf-ar
 
+Q :=@
+ECHO_CC = @echo "  CC      $@"
+ECHO_AS = @echo "  GAS     $@"
+ECHO_LD = @echo "  LD      $@"
+ECHO_AR = @echo "  AR      $@"
+
 CFLAGS = -m32 -Wall -Wextra -std=gnu99 -ffreestanding -O0 -g -nostdlib
 CPPFLAGS = 
 LDFLAGS = -Tldscript.ld -nostdlib -lgcc
@@ -26,16 +32,19 @@ all: $(TARGET)
 .PHONY: clean
 
 %.o: %.c
-	$(CC) -c $< -o $@ $(CFLAGS)
+	$(ECHO_CC)
+	$(Q)$(CC) -c $< -o $@ $(CFLAGS)
 
 %.o: %.S
-	$(AS) $(ASFLAGS) -o $@ $<
+	$(ECHO_AS)
+	$(Q)$(AS) $(ASFLAGS) -o $@ $<
 
 %.o: %.cpp
 	$(CPP) $(CPPFLAGS) -c $< -o $@
 
 $(TARGET): $(OBJS)
-	$(AR) rcs $@ $^ 
+	$(ECHO_AR)
+	$(Q)$(AR) rcs $@ $^ 
 
 clean:
 	rm $(TARGET) || true

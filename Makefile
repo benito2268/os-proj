@@ -7,6 +7,7 @@ ISO = os.iso
 BASH = bash
 CD   = cd
 
+GDB = ~/opt/cross/gdb/gdb 
 GDBRC = ./start.gdb
 
 all: build
@@ -28,7 +29,7 @@ qemu-gdb:
 	qemu-system-i386 -vga std -display gtk,zoom-to-fit=on -cdrom $(ISO) -D qemu.log -d int -s -S
 
 gdb:
-	gdb -x $(GDBRC)
+	$(GDB) -x $(GDBRC)
 
 clean:
 	$(BASH) clean.sh
