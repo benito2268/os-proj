@@ -29,7 +29,7 @@ qemu-gdb:
 	qemu-system-i386 -vga std -display gtk,zoom-to-fit=on -cdrom $(ISO) -D qemu.log -d int -s -S
 
 gdb:
-	$(GDB) -x $(GDBRC)
+	$(GDB) -x $(GDBRC) -tui
 
 clean:
 	$(BASH) clean.sh

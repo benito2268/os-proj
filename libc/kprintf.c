@@ -111,7 +111,7 @@ int kprintf(const char * restrict fmt, ...) {
                     
                     // do any left padding
                     int final_pad = left_pad - strlen(itoa_buf);
-                    while (final_pad) {
+                        while (final_pad > 0) {
                         term_putc('0'); 
                         --final_pad;
                     }
@@ -128,7 +128,7 @@ int kprintf(const char * restrict fmt, ...) {
                     
                      // do any left padding
                     final_pad = left_pad - strlen(itoa_buf);
-                    while (final_pad) {
+                    while (final_pad > 0) {
                         term_putc('0'); 
                         --final_pad;
                     }

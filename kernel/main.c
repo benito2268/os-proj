@@ -25,18 +25,11 @@
 #error "This tutorial needs to be compiled with a ix86-elf compiler"
 #endif
 
-volatile int cnt = 0;
-void test_irq(void) {
-	cnt++;
+// test keyboard
+void kb_handler(void) {
+    kprintf("keyboard irq!\n");
 }
 
-void wait_for_irq0() {
-	int start = cnt;
-	while (cnt == start) {
-		EMPTY_LOOP;
-	}
-}
-   
 void kmain(uint32_t mb2_info_addr) {
 	// parse the multiboot2 info struct
 	parse_mb2_header(mb2_info_addr);
@@ -48,16 +41,14 @@ void kmain(uint32_t mb2_info_addr) {
     idt_install();
 	IRQ_init();
 
-	// register IRQ0
-	//IRQ_install(0, &test_irq);
-
 	// initialize video
 	kvideo_init();
     term_init(WHITE, BLACK);
 
-	kprintf("WAITING FOR TICK...\n");
-	//wait_for_irq0();
-	kprintf("GOT ONE! %d\n", cnt);
+    IRQ_install(1, kb_handler); 
+
+    kprintf("HELLO WORLD %d\n", 222);
+    kprintf("H %x\n", 0xaaaa);
 
 	// loop forever
 	for (;;);

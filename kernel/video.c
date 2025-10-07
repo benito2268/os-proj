@@ -9,7 +9,9 @@ void putpixel(uint32_t x, uint32_t y, uint32_t color) {
     if (!fb_tag) return;
     if (fb_tag->framebuffer_type != 1 || fb_tag->bpp != 32) return; // RGB32 only
 
-    uint32_t* pixel = (uint32_t*)(fb_tag->framebuffer_addr + y * fb_tag->framebuffer_pitch + x * 4);
+    uint8_t* fb = (uint8_t*)(uintptr_t)fb_tag->framebuffer_addr;
+    uint32_t* pixel = (uint32_t*)(fb + y * fb_tag->framebuffer_pitch + x * (fb_tag->bpp / 8));
+
     *pixel = color;
 }
 
@@ -55,6 +57,8 @@ uint8_t font_bitmap_index(char c) {
     }
 }
 
+#define FONT_BITMAP_COUNT (sizeof(FONT_BITMAP) / sizeof(FONT_BITMAP[0]))
+
 void draw_glyph(int x, int y, uint32_t fg, uint32_t bg, const uint8_t glyph[8]) {
     uint8_t bits;
     uint8_t mask;
@@ -75,7 +79,11 @@ void draw_glyph(int x, int y, uint32_t fg, uint32_t bg, const uint8_t glyph[8]) 
 }
 
 void draw_char(int x, int y, uint32_t fg, uint32_t bg, char c) {
-    draw_glyph(x, y, fg, bg, FONT_BITMAP[font_bitmap_index(c)]);
+    uint8_t idx = font_bitmap_index(c);
+    if (idx >= FONT_BITMAP_COUNT) {
+        idx = 0; // fallback box
+    }
+    draw_glyph(x, y, fg, bg, FONT_BITMAP[idx]);
 }
 
 void draw_str(int x, int y, uint32_t fg, uint32_t bg, const char* s) {

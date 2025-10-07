@@ -55,6 +55,7 @@ _start:
     pushl %esi
     movl  %esp, %ebp
 
+    pushl %ebx
     call  kmain
     cli
 spin:
