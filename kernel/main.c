@@ -25,11 +25,6 @@
 #error "This tutorial needs to be compiled with a ix86-elf compiler"
 #endif
 
-// test keyboard
-void kb_handler(void) {
-    kprintf("keyboard irq!\n");
-}
-
 void kmain(uint32_t mb2_info_addr) {
 	// parse the multiboot2 info struct
 	parse_mb2_header(mb2_info_addr);
@@ -47,6 +42,8 @@ void kmain(uint32_t mb2_info_addr) {
 
     IRQ_install(1, kb_handler); 
 
+    //asm volatile ("int $0x21");
+    
     kprintf("HELLO WORLD %d\n", 222);
     kprintf("H %x\n", 0xaaaa);
 

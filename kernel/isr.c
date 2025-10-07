@@ -18,7 +18,7 @@ void trap(trap_frame_t *r) {
 
     // otherwise handle the IRQ
     if (IRQ_VECS[r->trap_no - 32] != NULL) {
-        isr_vecs[r->trap_no]();
+        IRQ_VECS[r->trap_no - 32]();
     }
         
     IRQ_issue_EOI(r->trap_no);
