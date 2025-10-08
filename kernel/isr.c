@@ -5,8 +5,11 @@
 #include "isr.h"
 #include "utils.h"
 #include "irq.h"
+#include "types.h"
 
 void trap(trap_frame_t *r) {
+    ubyte irq_no = r->trap_no - 32; // only used if it's an IRQ
+
     // panic on exception
     if (r->trap_no < 32) {
         panic(isr_msgs[r->trap_no], true, r);
@@ -17,9 +20,9 @@ void trap(trap_frame_t *r) {
     }
 
     // otherwise handle the IRQ
-    if (IRQ_VECS[r->trap_no - 32] != NULL) {
-        IRQ_VECS[r->trap_no - 32]();
+    if (IRQ_VECS[irq_no] != NULL) {
+        IRQ_VECS[irq_no]();
     }
         
-    IRQ_issue_EOI(r->trap_no);
+    IRQ_issue_EOI(irq_no);
 }

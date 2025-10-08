@@ -26,3 +26,6 @@ void term_scroll();
 
 void term_set_fg(color_t c);
 void term_set_bg(color_t c);
+
+void term_enable_cursor(void);
+void term_disable_cursor(void);

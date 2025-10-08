@@ -1,6 +1,8 @@
 // terminal.c - defines basic functions for a terminal driver
 // Ben Staehle - 8/26/25
 
+#include <stdbool.h>
+
 #include "terminal.h"
 #include "video.h"
 
@@ -10,6 +12,9 @@ static color_t curr_bg;
 
 // current position
 static term_pos_t curr_pos;
+
+// cursor settings
+static bool show_cursor = true;
 
 int TERM_ROWS;
 int TERM_COLS;
@@ -57,6 +62,17 @@ void term_putc(char c) {
         // increment current position
         curr_pos.x++; 
     }
+
+    // draw the cursor (but do not increment term_pos)
+    if (show_cursor) {
+        draw_char(
+        curr_pos.x * GLYPH_W,
+        curr_pos.y * GLYPH_H,
+       curr_fg,
+       curr_bg,
+           '\0'
+        ); 
+    }
 }
 
 void term_puts(char *str) {
@@ -78,6 +94,14 @@ void term_scroll() {
         curr_pos.y++;
         curr_pos.x = 0;
     }
+}
+
+void term_enable_cursor(void) {
+    show_cursor = true;
+}
+
+void term_disable_cursor(void) {
+    show_cursor = false;
 }
 
 void term_set_fg(color_t c) {

@@ -4,30 +4,31 @@
 #pragma once
 
 #include <stdint.h>
+#include "types.h"
 
 // asm defines
-#define EMPTY_LOOP asm volatile ("pause")
-
+#define NO_GCC_OPTIM asm volatile ("pause")
 
 // asm functions
 
 static void sti() {
-   asm volatile ("sti");
+    asm volatile ("sti");
 }
 
 static void cli() {
-   asm volatile ("cli");
+    asm volatile ("cli");
 }
 
-static uint8_t inb(uint8_t port) {
-   asm volatile ("");
-   return 0x0;
+static ubyte inb(ushort port) {
+    ubyte ret; 
+    asm volatile ("in %1,%0" : "=a" (ret) : "d" (port));
+    return ret;
 }
 
-static void outb(uint16_t port, uint8_t data) {
-   asm volatile ("out %0,%1" :: "a" (data), "d" (port));
+static void outb(ushort port, ubyte data) {
+    asm volatile ("out %0,%1" :: "a" (data), "d" (port));
 }
 
 static void io_wait() {
-   outb(0x80, 0);
+    outb(0x80, 0);
 }
