@@ -3,6 +3,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <stddef.h>
 
 #include "video_defs.h"
 
@@ -125,12 +126,21 @@ static const uint8_t FONT_BITMAP[][8] = {
     {0x70,0x38,0x1C,0x0E,0x1C,0x38,0x70,0x00},
     // 54: '%'
     {0xC1, 0xC3, 0x06, 0x0C, 0x18, 0x30, 0xC3, 0x83},
+    // 55: solid box (used for cursor)
+    {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},
+
 };
 
+// ascii funcs
 uint8_t font_bitmap_index(char c);
 void    draw_glyph(int x, int y, uint32_t fg, uint32_t bg, const uint8_t glyph[8]);
 void    draw_char(int x, int y, uint32_t fg, uint32_t bg, char c);
 void    draw_str(int x, int y, uint32_t fg, uint32_t bg, const char* s);
+
+// wide char funcs
+uint8_t font_bitmap_indexW(wchar_t wc);
+void draw_charW(int x, int y, uint32_t fg, uint32_t bg, wchar_t wc);
+void draw_strW(int x, int y, uint32_t fg, uint32_t bg, const wchar_t* ws);
 
 void putpixel(uint32_t x, uint32_t y, uint32_t color);
 void kvideo_init();

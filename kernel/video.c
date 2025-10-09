@@ -1,5 +1,7 @@
 // video.c - defines a basic kernel video driver
 // Ben Staehle - 8/18/25
+#include <stddef.h>
+
 #include "multiboot2.h"
 #include "video.h"
 
@@ -57,6 +59,14 @@ uint8_t font_bitmap_index(char c) {
     }
 }
 
+uint8_t font_bitmap_indexW(wchar_t wc) {
+    // supported wchars go here
+    switch(wc) {
+        case L'█': return 55; // unicode full block
+        default: return 0; // fallback box
+    }
+}
+
 #define FONT_BITMAP_COUNT (sizeof(FONT_BITMAP) / sizeof(FONT_BITMAP[0]))
 
 void draw_glyph(int x, int y, uint32_t fg, uint32_t bg, const uint8_t glyph[8]) {
@@ -86,6 +96,14 @@ void draw_char(int x, int y, uint32_t fg, uint32_t bg, char c) {
     draw_glyph(x, y, fg, bg, FONT_BITMAP[idx]);
 }
 
+void draw_charW(int x, int y, uint32_t fg, uint32_t bg, wchar_t wc ) {
+    uint8_t idx = font_bitmap_indexW(wc);
+    if (idx >= FONT_BITMAP_COUNT) {
+        idx = 0; // fallback box
+    }
+    draw_glyph(x, y, fg, bg, FONT_BITMAP[idx]);
+}
+
 void draw_str(int x, int y, uint32_t fg, uint32_t bg, const char* s) {
     char *ptr = (char*)s;
     int char_x = x;
@@ -97,4 +115,13 @@ void draw_str(int x, int y, uint32_t fg, uint32_t bg, const char* s) {
     }
 }
 
+void draw_strW(int x, int y, uint32_t fg, uint32_t bg, const wchar_t* ws) {
+    wchar_t *ptr = (wchar_t*)ws;
+    int char_x = x;
 
+    while (*ptr != '\0') {
+        draw_charW(char_x, y, fg, bg, *ptr);        
+        char_x += GLYPH_W;
+        ptr++;
+    }
+}

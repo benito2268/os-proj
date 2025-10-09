@@ -65,12 +65,12 @@ void term_putc(char c) {
 
     // draw the cursor (but do not increment term_pos)
     if (show_cursor) {
-        draw_char(
+        draw_charW(
         curr_pos.x * GLYPH_W,
         curr_pos.y * GLYPH_H,
        curr_fg,
        curr_bg,
-           '\0'
+           L'█'
         ); 
     }
 }
