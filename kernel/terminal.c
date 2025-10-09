@@ -49,7 +49,24 @@ void term_init(color_t fg, color_t bg) {
 
 void term_putc(char c) {
     if (c == '\n') {
+        // erase the cursor mark at the end of the line
+        if (show_cursor) {
+             draw_char(
+            curr_pos.x * GLYPH_W,
+            curr_pos.y * GLYPH_H,
+           curr_fg,
+           curr_bg,
+               ' '
+            );   
+        }
+
         term_scroll();
+    } else if (c == '\b') {
+        // backspace
+        term_backspace();
+
+        // term_bs handles the cursor
+        return;
     } else {
         draw_char(
             curr_pos.x * GLYPH_W,
@@ -93,6 +110,46 @@ void term_scroll() {
         // just reset the cursor
         curr_pos.y++;
         curr_pos.x = 0;
+    }
+}
+
+void term_backspace() {
+    // just erase the previous char and set the position back one
+    if (curr_pos.x == 0) {
+        // at the beginning of the line
+        // currently you can't erase previous lines
+        // TODO revisit this when I make the real terminal driver (stream based)
+        return;
+    }
+
+    // decrement pos.x and draw a space (or cursor)
+    if (show_cursor) {
+        // clear the cursor space, and redraw the cursor
+        draw_char(
+        curr_pos.x * GLYPH_W,
+        curr_pos.y * GLYPH_H,
+       curr_fg,
+       curr_bg,
+           ' '
+        ); 
+        curr_pos.x--;
+        draw_charW(
+        curr_pos.x * GLYPH_W,
+        curr_pos.y * GLYPH_H,
+       curr_fg,
+       curr_bg,
+           L'█'
+        );
+
+    } else {
+        curr_pos.x--;
+        draw_char(
+        curr_pos.x * GLYPH_W,
+        curr_pos.y * GLYPH_H,
+       curr_fg,
+       curr_bg,
+           ' '
+        ); 
     }
 }
 

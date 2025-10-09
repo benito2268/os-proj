@@ -23,6 +23,7 @@ void term_clear_color(color_t c);
 void term_putc(char c);
 void term_puts(char *str);
 void term_scroll();
+void term_backspace();
 
 void term_set_fg(color_t c);
 void term_set_bg(color_t c);
