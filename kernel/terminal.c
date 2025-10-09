@@ -2,6 +2,7 @@
 // Ben Staehle - 8/26/25
 
 #include <stdbool.h>
+#include <string.h>
 
 #include "terminal.h"
 #include "video.h"
@@ -101,10 +102,21 @@ void term_puts(char *str) {
 
 void term_scroll() {
     // check if we need to scroll the whole screen
-    if ((curr_pos.y + 1) > TERM_ROWS) {
-        //TODO implement this
+    if (curr_pos.y >= TERM_ROWS - 1) {
+        uint32_t *term_begin = get_framebuf_addr();
+        int px_per_scanline = GLYPH_W * TERM_COLS;
+
+        memmove(term_begin,
+                term_begin + (px_per_scanline * GLYPH_H),
+                px_per_scanline * GLYPH_H * (TERM_ROWS - 1) * sizeof(uint32_t));
+
+        // Clear the bottom row here
+        uint32_t *bottom = term_begin + (px_per_scanline * GLYPH_H * (TERM_ROWS - 1));
+        memset(bottom, 0, px_per_scanline * GLYPH_H * sizeof(uint32_t));
+
+        // set the terminal pos
         curr_pos.x = 0;
-        curr_pos.y = 0;
+        curr_pos.y = TERM_ROWS - 1;
 
     } else {
         // just reset the cursor

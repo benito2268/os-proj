@@ -1,5 +1,7 @@
 // string.c - hold c std lib string functions
 // Ben Staehle - 8/31/25
+#include <stddef.h>
+
 #include "string.h"
 
 size_t strlen(const char *s) {
@@ -30,10 +32,38 @@ char *kstrrev(char *s) {
 }
 
 void *memset(void *s, int c, size_t n) {
+    if (!s) {
+        return NULL; // invlaid memory
+    }
+
     int *ptr = (int*)s;
     for (size_t i = 0; i < n; ++i) {
         ptr[i] = c; 
     }
 
     return s;
+}
+
+void *memmove(void *d, const void* s, size_t n) {
+    char *cdest = (char*)d;
+    char *csrc = (char*)s;
+
+    if (!s || !d) { 
+        return NULL; // invalid memory
+    }
+
+    if (d <= s) {
+        while(n--) {
+            *cdest++ = *csrc++;
+        }
+    }
+    else if (d > s) {
+        cdest += n - 1;
+        csrc += n - 1;
+        while(n--) {
+            *cdest-- = *csrc--;
+        }
+    }
+
+    return d;
 }

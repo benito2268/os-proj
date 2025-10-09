@@ -2,7 +2,7 @@
 // Ben Staehle - 8/28/25
 #pragma once
 
-typedef unsigned int size_t;
+#include <stddef.h>
 
 #define __IS_LIBK
 
@@ -21,4 +21,5 @@ char *kstrrev(char *s);
 
 //shared functions
 void *memset(void *s, int c, size_t n);
+void *memmove(void *d, const void* s, size_t n);
 size_t strlen(const char *s);

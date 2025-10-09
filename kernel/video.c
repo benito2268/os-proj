@@ -4,6 +4,7 @@
 
 #include "multiboot2.h"
 #include "video.h"
+#include "asm.h"
 
 uint32_t *framebuf;
 
@@ -31,6 +32,10 @@ void kvideo_init() {
 
     //clear the screen to black
     clear_scr(BLACK);
+}
+
+uint32_t *get_framebuf_addr() {
+    return framebuf;
 }
 
 uint8_t font_bitmap_index(char c) {
@@ -72,6 +77,9 @@ uint8_t font_bitmap_indexW(wchar_t wc) {
 void draw_glyph(int x, int y, uint32_t fg, uint32_t bg, const uint8_t glyph[8]) {
     uint8_t bits;
     uint8_t mask;
+    
+    // IRQs may change the screen, so disable them while the kernel is drawing
+    cli();
 
     for (int row = 0; row < GLYPH_H; ++row) {
         bits = glyph[row];
@@ -86,6 +94,8 @@ void draw_glyph(int x, int y, uint32_t fg, uint32_t bg, const uint8_t glyph[8]) 
             mask >>= 1;
         }
     }
+
+    sti();
 }
 
 void draw_char(int x, int y, uint32_t fg, uint32_t bg, char c) {

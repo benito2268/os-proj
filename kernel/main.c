@@ -24,11 +24,6 @@
 #error "This tutorial needs to be compiled with a ix86-elf compiler"
 #endif
 
-// TODO remove - tests IRQ1
-void test(void) {
-    asm volatile ("int $0x21");
-}
-
 void kmain(uint32_t mb2_info_addr) {
 	// parse the multiboot2 info struct
 	parse_mb2_header(mb2_info_addr);
@@ -46,8 +41,9 @@ void kmain(uint32_t mb2_info_addr) {
 
     kb_init();
 
-    test();
-    test();
+    for (int i = 0; i < 61; ++i) {
+        kprintf("%s : %d\n", "HELLO WORLD", i);
+    }
 
 	// loop forever
 	for (;;);

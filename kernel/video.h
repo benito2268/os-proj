@@ -145,3 +145,4 @@ void draw_strW(int x, int y, uint32_t fg, uint32_t bg, const wchar_t* ws);
 void putpixel(uint32_t x, uint32_t y, uint32_t color);
 void kvideo_init();
 void clear_scr(uint32_t color);
+uint32_t *get_framebuf_addr();
