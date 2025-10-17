@@ -6,13 +6,14 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "asm.h"
 #include "multiboot2.h"
 #include "video.h"
 #include "terminal.h"
+#include "utils.h"
 #include "idt.h"
 #include "mmu.h"
 #include "irq.h"
-#include "keyboard.h"
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -23,6 +24,15 @@
 #if !defined(__i386__)
 #error "This tutorial needs to be compiled with a ix86-elf compiler"
 #endif
+
+// test keyboard
+void kb_handler(void) {
+    asm volatile ("pause");
+}
+
+void test(void) {
+    asm volatile ("int $0x21");
+}
 
 void kmain(uint32_t mb2_info_addr) {
 	// parse the multiboot2 info struct
@@ -39,11 +49,10 @@ void kmain(uint32_t mb2_info_addr) {
 	kvideo_init();
     term_init(WHITE, BLACK);
 
-    kb_init();
+    IRQ_install(1, kb_handler); 
 
-    for (int i = 0; i < 61; ++i) {
-        kprintf("%s : %d\n", "HELLO WORLD", i);
-    }
+    kprintf("HELLO WORLD %d\n", 222);
+    kprintf("H %x\n", 0xaaaa);
 
 	// loop forever
 	for (;;);

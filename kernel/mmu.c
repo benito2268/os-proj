@@ -1,6 +1,7 @@
 // mmu.c - defines functions for segmentation and paging
 // Ben Staehle - 9/4/25
 #include "mmu.h"
+#include "video.h"
 
 // NOTE:
 // - limit must be no more than 20 bits
@@ -35,5 +36,26 @@ void mmu_init() {
     gdt_set_gate(2, 0x00000000, 0xFFFFF, 0x92, 0xC);
 
     lgdt();
+
+    // enable paging
+    
+    
+    // TODO: will need to mark these as USED in the memory allocator
+    // identity map the first 4mb
+    for (int i = 0; i < 512; ++i) {
+        first_2mb_pt[i] = (PAGE_SIZE * i) | PG_PRESENT | PG_RW;
+    }
+
+    // identity map the framebuffer
+    uint *fb_addr = get_framebuf_addr();
+    uint fb_num_pages = get_framebuf_size() / PAGE_SIZE;
+    for (uint i = 0; i < fb_num_pages; ++i) {
+        framebuffer_pt[i] = ((uint)fb_addr + (i*PAGE_SIZE)) | PG_PRESENT | PG_RW;  
+    }
+
+    // init page directory
+    page_directory[0] = ((uint)first_2mb_pt) | PG_PRESENT | PG_RW;
+
+    enable_paging(page_directory);
 }
 

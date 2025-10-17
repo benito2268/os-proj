@@ -38,6 +38,10 @@ uint32_t *get_framebuf_addr() {
     return framebuf;
 }
 
+uint32_t get_framebuf_size() {
+    return fb_tag->width * fb_tag->height * sizeof(uint);
+}
+
 uint8_t font_bitmap_index(char c) {
     if (c >= '0' && c <= '9') return (uint8_t)(1 + (c - '0'));            // 1..10
     if (c >= 'A' && c <= 'Z') return (uint8_t)(11 + (c - 'A'));           // 11..36

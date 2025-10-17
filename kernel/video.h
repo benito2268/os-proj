@@ -146,3 +146,4 @@ void putpixel(uint32_t x, uint32_t y, uint32_t color);
 void kvideo_init();
 void clear_scr(uint32_t color);
 uint32_t *get_framebuf_addr();
+uint32_t get_framebuf_size();

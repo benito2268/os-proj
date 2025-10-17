@@ -42,3 +42,26 @@ set_gdt:
     movl  %ebp, %esp
     popl  %ebp
     ret
+
+.globl enable_paging
+.type enable_paging, @function
+
+enable_paging:
+    pushl %ebp
+    movl  %esp, %ebp
+
+    # load the page directory
+    movl 8(%ebp), %eax
+    movl %eax, %cr3
+
+    # enable paging
+    movl %cr0, %eax
+    orl  $0x80000000, %eax
+    movl %eax, %cr0
+
+    movl %ebp, %esp
+    popl %ebp
+    ret
+
+
+

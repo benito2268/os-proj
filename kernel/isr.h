@@ -46,14 +46,10 @@ typedef struct __trap_frame__ {
     uint edi, esi, ebp, old_esp, ebx, edx, ecx, eax;
 
     // segement registers
-    ushort gs;
-    ushort padding1;
-    ushort fs;
-    ushort padding2;
-    ushort es;
-    ushort padding3;
-    ushort ds;
-    ushort padding4;
+    uint gs;
+    uint fs;
+    uint es;
+    uint ds;
 
     // software pushed
     uint trap_no;
@@ -61,14 +57,12 @@ typedef struct __trap_frame__ {
 
     // hardware-pushed fields
     uint eip;
-    ushort cs;
-    ushort padding5;
+    uint cs;
     ushort eflags;
 
     // pushed only on PL change
     uint esp;
-    ushort ss;
-    ushort padding6;
+    uint ss;
 
 } trap_frame_t;
 
